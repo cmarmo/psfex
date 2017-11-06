@@ -746,6 +746,8 @@ int arcset(prj)
 struct prjprm *prj;
 
 {
+   int k;
+
    if (prj->r0 == 0.0) {
       prj->r0 = R2D;
       prj->w[0] = 1.0;
@@ -756,6 +758,14 @@ struct prjprm *prj;
    }
 
    prj->flag = PRJSET;
+
+   for (k = 99;
+	k >= 0 && fabs(prj->p[k]) <= 1e-30 && fabs(prj->p[k+100]) <= 1e-30;
+	k--);
+   if (k < 0)
+     k = 0;
+
+   prj->n = k;
 
    return 0;
 }
@@ -769,15 +779,22 @@ struct prjprm *prj;
 double *x, *y;
 
 {
-   double r;
+   double r, xp, yp;
 
    if (prj->flag != PRJSET) {
       if (arcset(prj)) return 1;
    }
 
    r =  prj->w[0]*(90.0 - theta);
-   *x =  r*wcs_sind(phi);
-   *y = -r*wcs_cosd(phi);
+   xp =  r*wcs_sind(phi);
+   yp = -r*wcs_cosd(phi);
+   if (prj->n)
+     pv_to_raw(prj, xp,yp, x,y);
+   else
+     {
+     *x = xp;
+     *y = yp;
+     }
 
    return 0;
 }
@@ -791,19 +808,26 @@ struct prjprm *prj;
 double *phi, *theta;
 
 {
-   double r;
+   double r, xp, yp, rp;
 
    if (prj->flag != PRJSET) {
       if (arcset(prj)) return 1;
    }
 
-   r = sqrt(x*x + y*y);
-   if (r == 0.0) {
+   if (prj->n)
+     raw_to_pv(prj, x,y, &xp, &yp);
+   else
+     {
+     xp = x;
+     yp = y;
+     }
+   rp = sqrt(xp*xp+yp*yp);
+   if (rp == 0.0) {
       *phi = 0.0;
    } else {
-      *phi = wcs_atan2d(x, -y);
+      *phi = wcs_atan2d(xp, -yp);
    }
-   *theta = 90.0 - r*prj->w[1];
+   *theta = 90.0 - rp*prj->w[1];
 
    return 0;
 }
