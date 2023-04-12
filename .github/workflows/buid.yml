@@ -45,6 +45,9 @@ jobs:
           brew install fftw
       - name: Build on MacOS
         run: |
+          export LDFLAGS="-L/usr/local/opt/lapack/lib"
+          export CPPFLAGS="-I/usr/local/opt/lapack/include"
+          export PKG_CONFIG_PATH="/usr/local/opt/lapack/lib/pkgconfig"
           ./autogen.sh
           ./configure
           make -j
