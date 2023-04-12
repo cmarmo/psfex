@@ -46,10 +46,10 @@ jobs:
           brew install plplot
       - name: Build on MacOS
         run: |
-          export LDFLAGS="-L/usr/local/opt/lapack/lib"
-          export CPPFLAGS="-I/usr/local/opt/lapack/include"
-          export PKG_CONFIG_PATH="/usr/local/opt/lapack/lib/pkgconfig"
+          export LDFLAGS="-L/usr/local/opt/lapack/lib -L/usr/local/opt/openblas/lib"
+          export CPPFLAGS="-I/usr/local/opt/lapack/include -L/usr/local/opt/openblas/lib"
+          export PKG_CONFIG_PATH="/usr/local/opt/lapack/lib/pkgconfig:/usr/local/opt/openblas/lib/pkgconfig"
           ./autogen.sh
-          ./configure --enable-openblas --with-openblas-libdir=/opt/homebrew/opt/openblas/lib/ --with-openblas-incdir=/opt/homebrew/opt/openblas/include/ --with-atlas-libdir=/opt/homebrew/opt/openblas/lib/ --with-atlas-incdir=/opt/homebrew/opt/openblas/include/
+          ./configure --enable-openblas
           make -j
 
