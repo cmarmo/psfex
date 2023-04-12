@@ -47,6 +47,6 @@ jobs:
       - name: Build on MacOS
         run: |
           ./autogen.sh
-          ./configure --enable-openblas --with-fftw-libdir=/opt/homebrew/lib/ --with-fftw-incdir=/opt/homebrew/include/ --with-openblas-libdir=/opt/homebrew/opt/openblas/lib/ --with-openblas-incdir=/opt/homebrew/opt/openblas/include/ --with-atlas-libdir=/opt/homebrew/opt/openblas/lib/ --with-atlas-incdir=/opt/homebrew/opt/openblas/include/
+          ./configure --enable-openblas --with-openblas-libdir=/opt/homebrew/opt/openblas/lib/ --with-openblas-incdir=/opt/homebrew/opt/openblas/include/ --with-atlas-libdir=/opt/homebrew/opt/openblas/lib/ --with-atlas-incdir=/opt/homebrew/opt/openblas/include/
           make -j
 
