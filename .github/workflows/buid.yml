@@ -22,7 +22,25 @@ jobs:
       - name: Install dependency
         run: |
           sudo apt-get install libatlas-base-dev libfftw3-dev libplplot-dev
-      - name: Build doc
+      - name: Build
+        run: |
+          ./autogen.sh
+          ./configure
+          make -j
+
+  build-on-mac:
+    name: compile
+    continue-on-error: false
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install dependency
+        run: |
+          brew install atlas
+          brew install fftw
+      - name: Build
         run: |
           ./autogen.sh
           ./configure
