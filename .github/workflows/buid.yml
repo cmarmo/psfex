@@ -46,8 +46,7 @@ jobs:
           brew install plplot
       - name: Build on MacOS
         run: |
-          export PKG_CONFIG_PATH=/usr/local/opt/openblas/lib/pkgconfig
           ./autogen.sh
-          ./configure --enable-openblas
+          ./configure --enable-openblas -with-openblas-libdir=/opt/OpenBLAS/lib/ --with-openblas-incdir=/opt/OpenBLAS/include/ --with-atlas-libdir=/opt/OpenBLAS/lib/ --with-atlas-incdir=/opt/OpenBLAS/include/
           make -j
 
