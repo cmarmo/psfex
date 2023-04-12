@@ -51,6 +51,6 @@ jobs:
           export CPPFLAGS="-I/usr/local/opt/lapack/include"
           export PKG_CONFIG_PATH="/usr/local/opt/lapack/lib/pkgconfig"
           ./autogen.sh
-          ./configure --enable-openblas --with-atlas-libdir=/usr/local/opt/openblas/lib --with-atlas-incdir=/usr/local/opt/openblas/include
+          ./configure --enable-openblas
           make -j
 
