@@ -12,7 +12,7 @@ on:
 jobs:
 
   build-on-linux:
-    name: compile
+    name: compile on linux Ubuntu
     continue-on-error: false
     runs-on: ubuntu-latest
 
@@ -29,7 +29,7 @@ jobs:
           make -j
 
   build-on-mac:
-    name: compile
+    name: compile on MacOS
     continue-on-error: false
     runs-on: macos-latest
 
@@ -39,6 +39,7 @@ jobs:
       - name: Install dependency
         run: |
           brew install automake
+          brew install lapack
           brew install atlas
           brew install fftw
       - name: Build on MacOS
