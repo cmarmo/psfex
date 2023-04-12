@@ -39,6 +39,7 @@ jobs:
       - name: Install dependency
         run: |
           brew install automake
+          brew install openblas
           brew install lapack
           brew install atlas
           brew install fftw
