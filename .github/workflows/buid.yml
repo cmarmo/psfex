@@ -43,12 +43,13 @@ jobs:
           brew install lapack
           brew install atlas
           brew install fftw
+          brew install plplot
       - name: Build on MacOS
         run: |
           export LDFLAGS="-L/usr/local/opt/lapack/lib"
           export CPPFLAGS="-I/usr/local/opt/lapack/include"
           export PKG_CONFIG_PATH="/usr/local/opt/lapack/lib/pkgconfig"
           ./autogen.sh
-          ./configure --enable-openblas
+          ./configure --enable-openblas --with-openblas-libdir=/opt/homebrew/opt/openblas/lib/ --with-openblas-incdir=/opt/homebrew/opt/openblas/include/ --with-atlas-libdir=/opt/homebrew/opt/openblas/lib/ --with-atlas-incdir=/opt/homebrew/opt/openblas/include/
           make -j
 
