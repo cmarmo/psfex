@@ -1,0 +1,52 @@
+name: build
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+
+  build-on-linux:
+    name: compile on linux Ubuntu
+    continue-on-error: false
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install dependency
+        run: |
+          sudo apt-get install libatlas-base-dev libfftw3-dev libplplot-dev
+      - name: Build on Linux Ubuntu
+        run: |
+          ./autogen.sh
+          ./configure
+          make -j
+
+  build-on-mac:
+    name: compile on MacOS
+    continue-on-error: false
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install dependency
+        run: |
+          brew install automake
+          brew reinstall openblas
+          brew reinstall lapack
+          brew reinstall atlas
+          brew install fftw
+          brew install plplot
+      - name: Build on MacOS
+        run: |
+          ./autogen.sh
+          ./configure --enable-openblas -with-openblas-libdir=/opt/OpenBLAS/lib/ --with-openblas-incdir=/opt/OpenBLAS/include/ --with-atlas-libdir=/opt/OpenBLAS/lib/ --with-atlas-incdir=/opt/OpenBLAS/include/
+          make -j
+
